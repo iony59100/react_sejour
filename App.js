@@ -1,20 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Login from './components/Login';
+import Home from './components/Home';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+function App() {
+    const [user, setUser] = useState(null);
+
+    return (
+        <Router>
+            <Navbar user={user} />
+            <Routes>
+                <Route path="/" element={<Login setUser={setUser} />} />
+                <Route path="/home" element={user ? <Home user={user} /> : <Navigate to="/" />} />
+            </Routes>
+        </Router>
+    );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
